@@ -32,7 +32,7 @@ export const menus: HomeCardItem[] = [
         route: 'text-column',
         title: '让文字立起来',
         description:
-            '通过aftwe再造一个元素，再通过transform: translate(-30px, 10px) scaleY(0.5) skew(50deg);filter、z-index等',
+            '通过after再造一个元素，再通过transform: translate(-30px, 10px) scaleY(0.5) skew(50deg);filter、z-index等',
     },
     {
         id: 6,

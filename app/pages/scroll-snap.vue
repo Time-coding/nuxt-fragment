@@ -1,102 +1,81 @@
 <template>
+  <div class="carousel-wrapper" @click="goHome">
     <div class="carousel">
-      <div class="carousel-track" ref="carouselTrack">
-        <div class="carousel-item" v-for="(item, index) in items" :key="index">
-          {{ item }}
-        </div>
+      <div class="carousel-item" v-for="(item, index) in items" :key="index"
+        :style="{ backgroundColor: item.backgroundColor }">
+        <div class="carousel-text">{{ item.text }}</div>
       </div>
     </div>
-  </template>
-  
-  <script setup>
+  </div>
+</template>
 
-  // 接收父组件传入的轮播数据，并设置默认值
-  const props = defineProps({
-    items: {
-      type: Array,
-      default: () => ['Default Slide 1', 'Default Slide 2', 'Default Slide 3'],
-    },
-  });
-  
-  // 引用滑动容器
-  const carouselTrack = ref(null);
-  
-  // 自动播放逻辑
-  const interval = 3000; // 自动切换间隔
-  let autoPlayTimer;
-  
-  const startAutoPlay = () => {
-    autoPlayTimer = setInterval(() => {
-      if (carouselTrack.value) {
-        const { scrollLeft, offsetWidth, scrollWidth } = carouselTrack.value;
-  
-        // 判断是否滚动到底部
-        const nextScrollLeft =
-          scrollLeft + offsetWidth >= scrollWidth ? 0 : scrollLeft + offsetWidth;
-  
-        // 滚动到下一个位置
-        carouselTrack.value.scrollTo({
-          left: nextScrollLeft,
-          behavior: 'smooth',
-        });
-      }
-    }, interval);
-  };
-  
-  const stopAutoPlay = () => {
-    clearInterval(autoPlayTimer);
-  };
-  
-  // 在组件挂载时启动自动播放
-  onMounted(() => {
-    startAutoPlay();
-  
-    // 鼠标移入暂停，移出继续
-    if (carouselTrack.value) {
-      carouselTrack.value.addEventListener('mouseenter', stopAutoPlay);
-      carouselTrack.value.addEventListener('mouseleave', startAutoPlay);
-    }
-  });
-  
-  // 在组件卸载时清除定时器
-  onUnmounted(() => stopAutoPlay());
-  </script>
-  
-  <style scoped>
-  .carousel {
-    width: 100%;
-    overflow: hidden;
-  }
-  
-  .carousel-track {
-    display: flex;
-    gap: 10px;
-    overflow-x: scroll;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-  }
-  
-  .carousel-item {
-    flex: 0 0 80%; /* 每个轮播项占视口 80% */
-    height: 200px;
-    background: #ccc;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    scroll-snap-align: center;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .carousel-track::-webkit-scrollbar {
-    display: none;
-  }
-  
-  .carousel-track {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  </style>
-  
+<script setup lang="ts">
+import { useRouter } from 'nuxt/app'; // 从 Nuxt 中导入 useRouter
+const items = [
+  { backgroundColor: '#FF5733', text: 'Item 1' },
+  { backgroundColor: '#33FF57', text: 'Item 2' },
+  { backgroundColor: '#3357FF', text: 'Item 3' },
+  { backgroundColor: '#FF33A1', text: 'Item 4' },
+];
+// 获取 Nuxt 路由实例
+const router = useRouter();
+
+// 跳转到首页
+const goHome = () => {
+  router.push('/'); // 使用 router.push('/') 跳转到首页
+};
+</script>
+
+<style scoped>
+.carousel-wrapper {
+  position: relative;
+  overflow: hidden;
+  cursor: grab;
+  /* 设置抓取的光标样式 */
+  position: relative;
+  overflow: hidden;
+  cursor: grab;
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  align-items: center;
+  width: 50%;
+  margin: auto;
+}
+
+.carousel-wrapper:active {
+  cursor: grabbing;
+  /* 在按下时变为抓取状态 */
+}
+
+.carousel {
+  display: flex;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  /* 启用横向滚动的吸附效果 */
+  scroll-behavior: smooth;
+  /* 平滑滚动 */
+  width: 100%;
+  /* 轮播图容器宽度 */
+}
+
+.carousel-item {
+  min-width: 100%;
+  /* 每个项目的宽度占满一整屏 */
+  height: 300px;
+  /* 项目的高度 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 2rem;
+  text-align: center;
+  scroll-snap-align: center;
+  /* 吸附到容器的中间 */
+  transition: transform 0.3s ease;
+}
+
+.carousel-text {
+  z-index: 1;
+}
+</style>
