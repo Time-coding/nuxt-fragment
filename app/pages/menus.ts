@@ -41,4 +41,11 @@ export const menus: HomeCardItem[] = [
         description:
             '通过scroll-snap-type属性实现，mandatory 表示滚动后必须停在某个吸附点。x 指横向吸附（y 为纵向）。scroll-snap-align：控制每个子元素在滚动停止时的位置，比如 start（左对齐）、center（居中）。scroll-behavior: smooth; 提供平滑过渡体验。CSS 通过 ::-webkit-scrollbar 和 scrollbar-width 实现隐藏滚动条。',
     },
+    {
+      id: 7,
+      route: 'scroll-page-transition',
+      title: '滑动翻页效果',
+      description:
+          '滑动翻页，下一页覆盖上一页',
+  },
 ];

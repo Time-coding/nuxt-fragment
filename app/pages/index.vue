@@ -27,7 +27,6 @@ const cards = ref<HomeCardItem[]>(menus);
         </div>
       </template>
     </Suspense>
-    <InputEntry />
   </div>
 </template>
 <style scoped>
