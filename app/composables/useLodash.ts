@@ -7,6 +7,6 @@ export const useLodash = () => {
   };
 
   return {
-    deepClone,
+    deepClone
   };
 };

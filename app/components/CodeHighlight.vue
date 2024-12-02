@@ -1,50 +1,61 @@
 <template>
-  <pre v-if="code" :class="'language-' + language">
-    <code v-html="highlightedCode"></code>
+  <pre
+    lang="zh-Hans-CN"
+    data-previewers="color time"
+    :data-prismjs-copy="props.copyText"
+    :data-prismjs-copy-success="copySuccessText"
+    :data-prismjs-copy-error="copyErrorText"
+    :class="'hx-scroll preview-code normalize-whitespace ' + lineNumbers + ' language-' + props.type"
+    :data-language="props.type"
+  >
+    <code :class="'language-'+ props.type" v-html="codeContent"></code>
   </pre>
 </template>
 
 <script setup lang="ts">
-import { defineProps, watchEffect } from 'vue'
-import Prism from 'prismjs'
-import 'prismjs/components/prism-javascript'
-import 'prismjs/components/prism-typescript'
-import 'prismjs/components/prism-css'
+  import { onMounted, computed } from 'vue';
+  import Prism from 'prismjs';
+  import 'prismjs/themes/prism-tomorrow.min.css';
 
-
-// 定义组件的props
-const props = defineProps({
-  code: {
-    type: String,
-    required: true
-  },
-  language: {
-    type: String,
-    required: true
+  interface PreviewCodeProps {
+    code: string;
+    type?: string;
+    isShowlineNumbers?: boolean;
+    copyText?: string;
+    copySuccessText?: string;
+    copyErrorText?: string;
   }
-})
+  const props = withDefaults(defineProps<PreviewCodeProps>(), {
+    code: '',
+    type: 'markup',
+    isShowlineNumbers: false,
+    copyText: 'Copy',
+    copySuccessText: 'Copied!',
+    copyErrorText: 'User to press Ctrl+C'
+  });
+  const lineNumbers = computed(() => {
+    return props.isShowlineNumbers ? 'line-numbers' : 'no-line-numbers';
+  });
 
-// 变量用于存储高亮后的代码
-let highlightedCode = ''
+  // 防止type写错报错
+  const codeContent = computed(() => {
+    try {
+      return Prism.highlight(props.code, Prism.languages[props.type], props.type);
+    } catch (error) {
+      console.log(error);
+    }
+    return '';
+  });
 
-// 监听code变化并进行高亮处理
-watchEffect(() => {
-  if (props.code) {
-    highlightedCode = Prism.highlight(props.code, Prism.languages[props.language], props.language)
-  }
-})
+  onMounted(() => {
+    Prism.highlightAll(); //切换菜单重新渲染
+  });
 </script>
 
 <style scoped>
-pre {
-  padding: 1em;
-  background-color: #2d2d2d;
-  border-radius: 4px;
-  overflow: auto;
-}
-
-code {
-  color: #f8f8f2;
-  font-family: "Courier New", Courier, monospace;
-}
+  .preview-code {
+    padding: 0px;
+    font: 14px/26px 'courier new';
+    border-radius: 3px;
+  }
 </style>

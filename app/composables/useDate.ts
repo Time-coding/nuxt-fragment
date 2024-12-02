@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 
 export const useDate = () => {
   // 定义返回的数据类型
-  const formatDate = (date: string| number | Date, format: string = 'YYYY-MM-DD'): string => {
+  const formatDate = (date: string | number | Date, format: string = 'YYYY-MM-DD'): string => {
     return dayjs(date).format(format);
   };
 

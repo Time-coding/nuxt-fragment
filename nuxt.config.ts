@@ -1,5 +1,6 @@
 import { pwa } from './app/config/pwa'
 import { appDescription } from './app/constants/index'
+import prismjs from 'vite-plugin-prismjs'
 
 export default defineNuxtConfig({
   modules: [
@@ -9,10 +10,40 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@vite-pwa/nuxt',
     '@nuxt/eslint',
+    '@element-plus/nuxt',
   ],
   plugins: [
     '~/plugins/lodash.ts',
   ],
+
+  vite: {
+    plugins: [
+      prismjs({
+        languages: [
+          'css',
+          'sass',
+          'scss',
+          'javascript',
+          'html',
+          'swift',
+          'xml',
+          'typescript',
+          'dart',
+          'csharp',
+          'json',
+          'sql',
+          'bash',
+          'md',
+          'nginx',
+          'cpp',
+          'java'
+        ],
+        plugins: ['toolbar', 'show-language', 'copy-to-clipboard'],
+        theme: 'tomorrow', // 你可以选择一个你喜欢的主题，比如 'tomorrow'，查看支持的主题可以访问GitHub上的PrismJS主题库[^4^]
+        css: true
+      })
+    ]
+  },
 
   devtools: {
     enabled: true,
@@ -38,7 +69,9 @@ export default defineNuxtConfig({
 
   css: [
     '@unocss/reset/tailwind.css',
-    'prismjs/themes/prism.css'
+    'prismjs/themes/prism-tomorrow.css',
+    'element-plus/dist/index.css',
+    'element-plus/theme-chalk/display.css'
   ],
 
   colorMode: {

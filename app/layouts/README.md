@@ -6,9 +6,9 @@ By default, `default.vue` will be used unless an alternative is specified in the
 
 ```vue
 <script setup lang="ts">
-definePageMeta({
-  layout: 'home',
-})
+  definePageMeta({
+    layout: 'home'
+  });
 </script>
 ```
 
