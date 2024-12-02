@@ -50,5 +50,12 @@ export const menus: HomeCardItem[] = [
     route: 'threejs-webgl-animation',
     title: 'threejs动画',
     description: 'Three.js 的入门级案例，展示了 3D 模型加载、动画、相机控制和性能优化等多种功能。以及代码的详细说明。'
+  },
+  {
+    id: 9,
+    route: 'cannon-physics',
+    title: 'Cannon.js 物理引擎',
+    description:
+      '一个从空中自由落下并碰撞到地面的立方体,创建了一个物理世界，地面为静态物体，立方体为动态物体，受到重力影响。通过将 Cannon.js 中的物理对象的位置信息同步到 Three.js 的网格对象，实现物理模拟与渲染的同步'
   }
 ];
